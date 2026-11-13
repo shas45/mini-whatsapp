@@ -1,18 +1,80 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Chat</title>
+    <title>Edit Chat - Mini WhatsApp</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h3>Edit Chat: <%= chat._id %></h3>
-    <P>This chat was send from <b><%= chat.from %></b> to <b><%= chat.to %></b></P>
-    
-    <form action="/chats/<%= chat._id %>/update" method="POST">
-        <textarea name="message" rows="10" cols="40"><%= chat.message %></textarea><br>
-        <button type="submit">Edit</button>
-    </form>
-    
+
+    <div class="new-chat-container">
+
+        <div class="new-chat-header">
+
+            <a href="/chats" class="back-btn">← Back to Chats</a>
+
+            <h2>Edit Your Message</h2>
+            <p>Make changes to your existing conversation.</p>
+
+        </div>
+
+        <div class="chat-details">
+
+            <div class="detail-item">
+                <span>From</span>
+                <strong><%= chat.from %></strong>
+            </div>
+
+            <div class="detail-item">
+                <span>To</span>
+                <strong><%= chat.to %></strong>
+            </div>
+
+        </div>
+
+        <form action="/chats/<%= chat._id %>/update"
+              method="POST"
+              class="new-chat-form">
+
+            <div class="form-group">
+
+                <label for="message">Your Message</label>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    maxlength="1000"
+                    required
+                ><%= chat.message %></textarea>
+
+                <small id="charCount">0 / 1000 characters</small>
+
+            </div>
+
+            <button type="submit" class="create-chat-btn">
+                Update Message
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+        const message = document.getElementById("message");
+        const charCount = document.getElementById("charCount");
+
+        function updateCount() {
+            charCount.textContent =
+                `${message.value.length} / 1000 characters`;
+        }
+
+        message.addEventListener("input", updateCount);
+
+        updateCount();
+    </script>
+
 </body>
 </html>
